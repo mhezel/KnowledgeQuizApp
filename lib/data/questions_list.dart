@@ -2,25 +2,25 @@ import 'package:quiz_app/model/question_model.dart';
 
 List<QuestionModel> questions = [
   QuestionModel(
-    "How Many Whiskers does the average cat have on each side of its face ?",
+    "How many legs does a spider have?",
     {
       "1": false,
       "3": false,
-      "12": true,
-      "5,007": false,
+      "8": true,
+      "5": false,
     },
   ),
-  QuestionModel("When does a cat purr ?", {
-    "When it cares for its kittens": false,
-    "When it needs comfort": false,
-    "When it feels content": false,
-    "All of the above": true,
+  QuestionModel("What is the name of the toy cowboy in Toy Story ?", {
+    "Jessie": false,
+    "Buzz": false,
+    "Lenny": false,
+    "Woody": true,
   }),
-  QuestionModel("What is the average number of kittens in a litter ?", {
-    "1 to 2": false,
-    "3 to 5": true,
-    "8 to 10": false,
-    "12 to 14": false,
+  QuestionModel("What is the color of an emerald ?", {
+    "Red": false,
+    "Green": true,
+    "Blue": false,
+    "Black": false,
   }),
   QuestionModel("How many moons does Mars have ?", {
     "1": false,
@@ -28,17 +28,17 @@ List<QuestionModel> questions = [
     "4": true,
     "8": false,
   }),
-  QuestionModel("What is Mars's nickname ?", {
-    "The red planet": true,
-    "The dusty planet": false,
-    "The hot planet": false,
-    "The smelly planet": false,
+  QuestionModel("Which ocean is off the California coast ?", {
+    "Pacific Ocean": true,
+    "Atlantic Ocean": false,
+    "Indian Ocean": false,
+    "Arctic Ocean": false,
   }),
-  QuestionModel("About How long would it take to travel to Mars ?", {
-    "Three days": false,
-    "A month": false,
-    "Eight months": true,
-    "Two years": false,
+  QuestionModel("What is a group of lions called ?", {
+    "A Herd": false,
+    "A Pack of": false,
+    "A Pride": true,
+    "A Shrewdness": false,
   }),
   QuestionModel(
       "Mars is Named after the Roman god Mars. What is he the god of ?", {
@@ -54,18 +54,35 @@ List<QuestionModel> questions = [
     "Sixth": false,
   }),
   QuestionModel(
-      "Where did Orville and Wilbur Wright build their first flying airplane ?",
-      {
-        "Paris, France": false,
-        "Boston, Massachusetts": false,
-        "Kitty Hawk, North Carolina": true,
-        "Tokyo, Japan": false,
-      }),
+      "Which planet in our Solar System is known for having a ring ?", {
+    "Jupiter": false,
+    "Uranus": false,
+    "Saturn": true,
+    "Mercury": false,
+  }),
   QuestionModel(
       "The First astronaut to travel to space came from which country ?", {
     "United States": false,
     "Soviet Union (now Russia)": true,
     "China": false,
     "Rocketonia": false,
+  }),
+  QuestionModel("Who was the first American president ?", {
+    "Abraham Lincoln": false,
+    "George Washington": true,
+    "Ronald Reagan": false,
+    "Bill Clinton": false,
+  }),
+  QuestionModel("How many continents are there in the world ?", {
+    "5": false,
+    "7": true,
+    "6": false,
+    "8": false,
+  }),
+  QuestionModel("How many bones do sharks have ?", {
+    "5": false,
+    "7": false,
+    "6": false,
+    "0": true,
   }),
 ];
