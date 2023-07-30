@@ -1,4 +1,4 @@
-# first_app
+# Knowledge Quiz Application using Flutter/Dart
 
 A new Flutter project.
 
