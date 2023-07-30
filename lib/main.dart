@@ -1,88 +1,171 @@
-import 'package:first_app/result.dart';
 import 'package:flutter/material.dart';
-import './quiz.dart';
+import 'package:quiz_app/data/questions_list.dart';
+import 'package:quiz_app/screens/result_screen.dart';
 
-// void main() {
-//   runApp(MyFlutterApp());
-// }
-
-void main() => runApp(MyFlutterApp());
-
-// class MyFlutterApp extends StatelessWidget {
-class MyFlutterApp extends StatefulWidget {
-  MyFlutterApp({super.key});
-
-  @override
-  State<MyFlutterApp> createState() => _MyFlutterAppState();
+void main() {
+  runApp(MyApp());
 }
 
-class _MyFlutterAppState extends State<MyFlutterApp> {
-  final _questions = const [
-    //values do not change during compiled and runtime
-    {
-      'questionText': 'What is your favorite color?',
-      'answers': [
-        {'text': 'black', 'score': 8},
-        {'text': 'red', 'score': 4},
-        {'text': 'green', 'score': 6},
-        {'text': 'white', 'score': 1},
-      ],
-    },
-    {
-      'questionText': 'What is your favorite animal?',
-      'answers': [
-        {'text': 'rabbit', 'score': 7},
-        {'text': 'snake', 'score': 4},
-        {'text': 'elephant', 'score': 6},
-        {'text': 'lion', 'score': 2},
-      ],
-    },
-    {
-      'questionText': 'What is your favorite sport?',
-      'answers': [
-        {'text': 'soccer', 'score': 1},
-        {'text': 'basketball', 'score': 1},
-        {'text': 'golf', 'score': 1},
-        {'text': 'tennis', 'score': 1},
-      ],
-    },
-  ];
+class MyApp extends StatelessWidget {
+  MyApp({Key? key}) : super(key: key);
 
-  var _questionIndex = 0;
-  var _totalScore = 0;
-
-  void _resetQuiz() {
-    setState(() {
-      _questionIndex = 0;
-      _totalScore = 0;
-    });
-  }
-
-  void _answerQuestion(int score) {
-    // if (_questionIndex < questions.length) {
-
-    _totalScore += score; //increment total score
-
-    setState(() {
-      //force flutter to re-render the state widget or interface
-      _questionIndex = _questionIndex + 1;
-    });
-  }
-
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Test your Knowledge Quiz!'),
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: HomePage(),
+      debugShowCheckedModeBanner: false,
+    );
+  }
+}
+
+class HomePage extends StatefulWidget {
+  HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  Color mainColor = const Color(0xFF252c4a);
+  Color secondColor = const Color(0xFF117eeb);
+
+  PageController? _controller = PageController(initialPage: 0);
+
+  bool isPressed = false;
+  Color isTrue = Colors.green;
+  Color isWrong = Colors.red;
+  Color btnColor = const Color(0xFF117eeb);
+  int score = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: mainColor,
+      body: Padding(
+        padding: const EdgeInsets.all(18.0),
+        child: PageView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          controller: _controller!,
+          onPageChanged: (page) {
+            setState(() {
+              isPressed = false;
+            });
+          },
+          itemCount: questions.length,
+          itemBuilder: (context, index) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    "Question ${index + 1}/${questions.length}",
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w300,
+                        fontSize: 28.0),
+                  ),
+                ),
+                const Divider(
+                  color: Colors.white,
+                  height: 8.0,
+                  thickness: 1.0,
+                ),
+                const SizedBox(
+                  height: 20.0,
+                ),
+                Text(
+                  questions[index].question!,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 28.0,
+                  ),
+                ),
+                const SizedBox(
+                  height: 35.0,
+                ),
+                for (int i = 0; i < questions[index].answers!.length; i++)
+                  Container(
+                    width: double.infinity,
+                    margin: const EdgeInsets.only(bottom: 12.0),
+                    child: MaterialButton(
+                      shape: const StadiumBorder(),
+                      color: isPressed
+                          ? questions[index].answers!.entries.toList()[i].value
+                              ? isTrue
+                              : isWrong
+                          : secondColor,
+                      padding: const EdgeInsets.symmetric(vertical: 18.0),
+                      onPressed: isPressed
+                          ? () {}
+                          : () {
+                              setState(() {
+                                isPressed = true;
+                              });
+                              if (questions[index]
+                                  .answers!
+                                  .entries
+                                  .toList()[i]
+                                  .value) {
+                                score += 10;
+                                // print(score);
+                              }
+                            },
+                      child: Text(
+                        questions[index].answers!.keys.toList()[i],
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                const SizedBox(
+                  height: 50.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    OutlinedButton(
+                      onPressed: isPressed
+                          ? index + 1 == questions.length
+                              ? () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ResultScreen(score)));
+                                }
+                              : () {
+                                  _controller!.nextPage(
+                                      duration:
+                                          const Duration(milliseconds: 500),
+                                      curve: Curves.linear);
+                                  setState(() {
+                                    isPressed = false;
+                                  });
+                                }
+                          : null,
+                      child: Text(
+                        index + 1 == questions.length
+                            ? "See Results"
+                            : "Next Question",
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            );
+          },
         ),
-        // body: Text('This is my default text!'),
-        body: _questionIndex < _questions.length //ternary condition
-            ? Quiz(
-                answerQuestion: _answerQuestion,
-                questionIndex: _questionIndex,
-                questions: _questions)
-            : Result(_totalScore, _resetQuiz),
       ),
     );
   }
